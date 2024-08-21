@@ -8,9 +8,9 @@ import java.util.Map;
 
 
 public class DataBaseAddress {
-    private static HashMap<Integer, AddressDbDto> addressDbDtoHashMap;
+    private static HashMap<Long, AddressDbDto> addressDbDtoHashMap;
 
-    public static Map<Integer, AddressDbDto> getAddressHashMap() {
+    public static Map<Long, AddressDbDto> getAddressHashMap() {
         if (addressDbDtoHashMap == null)
             addressDbDtoHashMap = new HashMap<>();
         return addressDbDtoHashMap;

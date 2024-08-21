@@ -79,11 +79,11 @@ public class UserFacade implements GetSettingsUseCase, SaveSettingsUseCase, GetU
 //        return roleService.findPrivilegeByName(name);
 //    }
 
-    public void changePrivilegesInUserRole(Long idUser, Long idRole, Map<String, String> privilegeMap) {
+    public void changePrivilegesInUserRole(Long idUser, Privilege privilege) {
         AppUser userById = userService.findUserById(idUser);
-        boolean result = roleService.changePrivilegesInUserRole(userById, idRole, privilegeMap);
+        roleService.changePrivilegesInUserRole(userById, privilege);
 
-        if(result)
+//        if(result)
             userService.saveUser(userById);
     }
 

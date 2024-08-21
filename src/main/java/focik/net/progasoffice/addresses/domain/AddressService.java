@@ -35,7 +35,7 @@ class AddressService {
         return addressRepository.save(address);
     }
 
-    public Address getAddress(Integer id) {
+    public Address getAddress(Long id) {
         Optional<Address> byId = addressRepository.findById(id);
 
         if (byId.isEmpty())
@@ -44,7 +44,7 @@ class AddressService {
         return byId.get();
     }
 
-    public void deleteAddress(Integer id) {
+    public void deleteAddress(Long id) {
         addressRepository.deleteAddress(id);
     }
 }

@@ -29,13 +29,13 @@ public class InMemoryAddressRepositoryAdapter implements AddressRepository {
     }
 
     @Override
-    public Optional<Address> findById(Integer id) {
+    public Optional<Address> findById(Long id) {
         return Optional.ofNullable(DataBaseAddress.getAddressHashMap().get(id))
                 .map(dbDto -> mapper.map(dbDto, Address.class));
     }
 
     @Override
-    public void deleteAddress(Integer id) {
+    public void deleteAddress(Long id) {
         DataBaseAddress.getAddressHashMap().remove(id);
     }
 
@@ -44,11 +44,11 @@ public class InMemoryAddressRepositoryAdapter implements AddressRepository {
         log.info("Try add into inMemoryDb address: " + addressDbDto.toString());
         if (addressDbDto == null)
             throw new NullPointerException("Address cannot be null");
-        Integer id = DataBaseAddress.getAddressHashMap()
+        Long id = DataBaseAddress.getAddressHashMap()
                 .keySet()
                 .stream()
-                .reduce(Integer::max)
-                .orElse(Integer.valueOf("0")) + 1;
+                .reduce(Long::max)
+                .orElse(Long.valueOf("0L")) + 1L;
 
         addressDbDto.setId(id);
         DataBaseAddress.getAddressHashMap().put(id, addressDbDto);

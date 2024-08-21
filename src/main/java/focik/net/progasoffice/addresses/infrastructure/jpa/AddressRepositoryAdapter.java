@@ -22,7 +22,7 @@ class AddressRepositoryAdapter implements AddressRepository {
     }
 
     @Override
-    public Optional<Address> findById(Integer id) {
+    public Optional<Address> findById(Long id) {
         if (id == null)
             return Optional.empty();
 
@@ -35,7 +35,7 @@ class AddressRepositoryAdapter implements AddressRepository {
     }
 
     @Override
-    public void deleteAddress(Integer id) {
+    public void deleteAddress(Long id) {
         addressDtoRepository.deleteById(id);
     }
 }

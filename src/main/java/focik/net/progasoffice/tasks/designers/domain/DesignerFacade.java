@@ -3,6 +3,7 @@ package focik.net.progasoffice.tasks.designers.domain;
 import focik.net.progasoffice.share.ActiveStatus;
 import focik.net.progasoffice.share.TaskStatus;
 import focik.net.progasoffice.tasks.designers.domain.model.Designer;
+import focik.net.progasoffice.tasks.designers.domain.model.DesignerTraffic;
 import focik.net.progasoffice.tasks.designers.domain.port.primary.GetDesignerUseCase;
 import focik.net.progasoffice.tasks.gasconnection.domain.exceptions.GasConnectionDoesNotExistException;
 import focik.net.progasoffice.tasks.gasconnection.domain.port.primary.GetGasConnectionQueryUseCase;
@@ -28,6 +29,11 @@ public class DesignerFacade implements GetDesignerUseCase {
     @Override
     public List<Designer> getDesignersByActive(ActiveStatus status) {
         return designerService.getDesignerByActive(status);
+    }
+
+    @Override
+    public List<DesignerTraffic> getDesignersTrafficByActive(ActiveStatus status) {
+        return designerService.getDesignerTrafficByActive(status);
     }
 
     @Override

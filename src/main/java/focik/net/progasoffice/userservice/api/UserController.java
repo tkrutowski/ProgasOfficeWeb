@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class UserController {
     private final IChangePasswordUseCase changePasswordUseCase;
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMIN_READ_ALL','USER_READ')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','USER_READ')")
     ResponseEntity<AppUser> getUser(@PathVariable Long id){
         int i=0;
         log.info("USER-SERVICE: Try find user by id: = " + id);
@@ -48,13 +49,16 @@ public class UserController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN_READ_ALL','USER_READ_ALL')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','USER_READ_ALL')")
     ResponseEntity<List<UserDto>> getUsers(){
         int i=0;
 //        log.info("USER-SERVICE: Try find user by id: = " + id);
         List<AppUser> allUsers = getUserUseCase.getAllUsers();
 //        log.info(user != null ? "USER-SERVICE: Found user by ID = " + id : "USER-SERVICE: Not found user by ID = " + id);
-        List<UserDto> userDtos = allUsers.stream().map(user -> mapper.map(user, UserDto.class)).collect(Collectors.toList());
+        List<UserDto> userDtos = allUsers.stream()
+                .map(user -> mapper.map(user, UserDto.class))
+                .sorted(Comparator.comparing(UserDto::getLastName))
+                .collect(Collectors.toList());
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 

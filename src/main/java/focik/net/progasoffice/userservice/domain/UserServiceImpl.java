@@ -9,9 +9,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -105,8 +102,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public AppUser saveUser(AppUser user) {
-        return userRepository.save(user);
+    public void saveUser(AppUser user) {
+        userRepository.save(user);
     }
 
     @Override

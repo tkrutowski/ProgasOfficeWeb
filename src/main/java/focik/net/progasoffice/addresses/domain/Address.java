@@ -1,32 +1,32 @@
 package focik.net.progasoffice.addresses.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 public class Address {
-    private Integer id;
+    private Long id;
+    private String commune;
     private String city;
     private String street;
     private String zip;
+    private GeographicalCoordinates coordinates;
 
 
-    @Override
-    public String toString() {
-        return "ul. " + street + ", " + zip + " " + city;
+    String getLatitude() {//szerokosc
+        if(coordinates != null)
+            return this.coordinates.getLatitude();
+        return "";
     }
 
-    public String toJsonString() {
-        return "{" +
-                "id=" + id +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", zip='" + zip + '\'' +
-                '}';
+    String getLongitude(){ //długość
+        if(coordinates != null)
+            return this.coordinates.getLongitude();
+        return "";
     }
 }

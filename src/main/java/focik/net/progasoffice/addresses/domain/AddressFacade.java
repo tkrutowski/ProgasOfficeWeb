@@ -17,11 +17,11 @@ public class AddressFacade {
         return addressService.updateAddress(address);
     }
 
-    public Address getAddress(Integer id) {
+    public Address getAddress(Long id) {
         return addressService.getAddress(id);
     }
 
-    public void deleteAddress(Integer id){
+    public void deleteAddress(Long id){
         addressService.deleteAddress(id);
     }
 

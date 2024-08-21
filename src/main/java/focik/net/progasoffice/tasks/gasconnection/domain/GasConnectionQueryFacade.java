@@ -6,6 +6,7 @@ import focik.net.progasoffice.tasks.gasconnection.domain.port.primary.GetGasConn
 import focik.net.progasoffice.tasks.gasconnection.domain.port.secondary.GasConnectionQueryRepository;
 import focik.net.progasoffice.tasks.gasconnection.infrastructure.dto.GasConnectionQueryDto;
 import focik.net.progasoffice.userservice.domain.AppUser;
+import focik.net.progasoffice.userservice.domain.Privilege;
 import focik.net.progasoffice.userservice.domain.utility.UserHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public class GasConnectionQueryFacade implements GetGasConnectionQueryUseCase {
             return gasConnectionList;
 
         //if user in not an employee he can only see his own tasks
-        if (!user.isEmployee())
+        if (user.getPrivileges().stream().map(Privilege::getFullReadName).noneMatch(s -> s.equals("TASKS_CONNECTION_READ_ALL")))
             return gasConnectionList.stream()
                     .filter(gasConnectionQueryDto -> gasConnectionQueryDto.getIdDesigner().equals(user.getIdDesigner()))
                     .toList();

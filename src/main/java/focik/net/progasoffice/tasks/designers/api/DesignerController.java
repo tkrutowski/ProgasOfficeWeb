@@ -2,6 +2,7 @@ package focik.net.progasoffice.tasks.designers.api;
 
 import focik.net.progasoffice.share.ActiveStatus;
 import focik.net.progasoffice.tasks.designers.domain.model.Designer;
+import focik.net.progasoffice.tasks.designers.domain.model.DesignerTraffic;
 import focik.net.progasoffice.tasks.designers.domain.port.primary.GetDesignerUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -34,6 +35,13 @@ public class DesignerController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','TASKS_READ', 'TASKS_READ_ALL')")
     ResponseEntity<List<Designer>> getDesigners(@RequestParam(name = "status", defaultValue = "ALL") ActiveStatus status) {
         List<Designer> designerList = getDesignerUseCase.getDesignersByActive(status);
+        return new ResponseEntity<>(designerList, HttpStatus.OK);
+    }
+
+    @GetMapping("/traffic")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','TASKS_READ', 'TASKS_READ_ALL')")
+    ResponseEntity<List<DesignerTraffic>> getDesignersTraffic(@RequestParam(name = "status", defaultValue = "ALL") ActiveStatus status) {
+        List<DesignerTraffic> designerList = getDesignerUseCase.getDesignersTrafficByActive(status);
         return new ResponseEntity<>(designerList, HttpStatus.OK);
     }
 

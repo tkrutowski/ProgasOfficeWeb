@@ -13,7 +13,7 @@ public class AddressEndpoint {
 
     private final AddressFacade addressFacade;
 
-    public Address getAddress(Integer id) {
+    public Address getAddress(Long id) {
         log.info("ADDRESS-INTERNAL-SERVICE: Try find address for  id = " + id);
         Address address = addressFacade.getAddress(id);
         log.info(address != null ? "ADDRESS-INTERNAL-SERVICE: Found address for id = " + id : "ADDRESS-INTERNAL-SERVICE: Not found address for id = " + id);
@@ -34,7 +34,7 @@ public class AddressEndpoint {
         return saved;
     }
 
-    public void deleteAddress(Integer id) {
+    public void deleteAddress(Long id) {
         log.info("ADDRESS-INTERNAL-SERVICE: Try delete address ID: " + id);
         addressFacade.deleteAddress(id);
         log.info("ADDRESS-INTERNAL-SERVICE: deleted address by id = " + id);

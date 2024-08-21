@@ -20,12 +20,11 @@ public interface IUserService {
 //    void resetPassword(String email);
     void changePassword(Long idUser, String currentPassword, String newPassword);
 
-    AppUser saveUser(AppUser user);
+    void saveUser(AppUser user);
 
     void updateIsActive(Long id, boolean isActive);
 
     void updateIsLock(Long id, boolean isLock);
-//    void updateRole(String currentUser, Collection<Role> roles);
 
 
 }

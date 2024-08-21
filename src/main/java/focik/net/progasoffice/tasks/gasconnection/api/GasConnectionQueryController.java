@@ -22,7 +22,7 @@ public class  GasConnectionQueryController {
     private final GetGasConnectionQueryUseCase queryUseCase;
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','TASKS_READ', 'TASKS_READ_ALL')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','TASKS_CONNECTION_DESIGN_READ', 'TASKS_CONNECTION_DESIGN_READ_ALL')")
     ResponseEntity<GasConnectionQueryDto> getGasConnection(@PathVariable Integer id) {
         log.info("GASCONNECTION: Try find gasconnection for  id = " + id);
         GasConnectionQueryDto gasConnectionDto = queryUseCase.getGasConnectionById(id);
@@ -31,7 +31,7 @@ public class  GasConnectionQueryController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','TASKS_READ', 'TASKS_READ_ALL')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','TASKS_CONNECTION_DESIGN_READ', 'TASKS_CONNECTION_DESIGN_READ_ALL')")
     ResponseEntity<List<GasConnectionQueryDto>> getGasConnections(@RequestParam(name = "status", defaultValue = "ALL") TaskStatus taskStatus) {
         List<GasConnectionQueryDto> gasConnectionByComplete = queryUseCase.getGasConnectionByStatus(taskStatus);
         return new ResponseEntity<>(gasConnectionByComplete, HttpStatus.OK);

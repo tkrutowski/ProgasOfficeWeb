@@ -1,7 +1,7 @@
 package focik.net.progasoffice.userservice.infrastructure.jpa;
 
 import focik.net.progasoffice.userservice.domain.Role;
-import focik.net.progasoffice.userservice.domain.port.secondary.IRoleRepository;
+import focik.net.progasoffice.userservice.domain.port.secondary.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class RoleRepositoryAdapter implements IRoleRepository {
+public class RoleRepositoryAdapter implements RoleRepository {
     private final IRoleDtoRepository roleDtoRepository;
     @Override
     public Role addRole(Role role) {

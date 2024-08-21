@@ -5,99 +5,76 @@ import focik.net.progasoffice.userservice.api.dto.RoleDto;
 import focik.net.progasoffice.userservice.domain.HttpResponse;
 import focik.net.progasoffice.userservice.domain.Privilege;
 import focik.net.progasoffice.userservice.domain.Role;
-import focik.net.progasoffice.userservice.domain.port.primary.IAddRoleToUserUseCase;
-import focik.net.progasoffice.userservice.domain.port.primary.IChangePrivilegeInUserRoleUseCase;
-import focik.net.progasoffice.userservice.domain.port.primary.IDeleteUsersRoleUseCase;
-import focik.net.progasoffice.userservice.domain.port.primary.IGetUserRolesUseCase;
+import focik.net.progasoffice.userservice.domain.port.primary.UpdatePrivilegeUseCase;
+import focik.net.progasoffice.userservice.domain.port.primary.GetPrivilegesUseCase;
+import focik.net.progasoffice.userservice.domain.port.primary.AddPrivilegeUseCase;
+import focik.net.progasoffice.userservice.domain.port.primary.DeletePrivilegeUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 //@CrossOrigin(exposedHeaders = "Jwt-Token")
 @Log4j2
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = { "/", "/api/user/role"})
+@RequestMapping(path = {"/api/v1/user/role"})
 //najpierw sprawdza czy jest jakiś exception handler w exceptionHandling
-public class RoleController{
+public class RoleController {
 
     private final ModelMapper mapper;
-    private final IGetUserRolesUseCase getUserRolesUseCase;
-    private final IAddRoleToUserUseCase addRoleToUserUseCase;
-    private final IChangePrivilegeInUserRoleUseCase changePrivilegeInUserRoleUseCase;
-    private final IDeleteUsersRoleUseCase deleteUsersRoleUseCase;
-
+    private final GetPrivilegesUseCase getPrivilegesUseCase;
+    private final AddPrivilegeUseCase addPrivilegeUseCase;
+    private final UpdatePrivilegeUseCase updatePrivilegeUseCase;
+    private final DeletePrivilegeUseCase deletePrivilegeUseCase;
 
 
     @GetMapping("/{id}")
-    ResponseEntity<List<RoleDto>> getUserRoles(@PathVariable Long id){
-        int i=0;
-//        log.info("USER-SERVICE: Try find user by id: = " + id);
-        List<Role> allRoles = getUserRolesUseCase.getUserRoles(id);
-//        log.info(user != null ? "USER-SERVICE: Found user by ID = " + id : "USER-SERVICE: Not found user by ID = " + id);
-        List<RoleDto> roleDtos = allRoles.stream().map(role -> mapper.map(role, RoleDto.class)).collect(Collectors.toList());
-        return new ResponseEntity<>(roleDtos, HttpStatus.OK);
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    ResponseEntity<List<PrivilegeDto>> getUserRoles(@PathVariable Long id) {
+        List<Privilege> userPrivileges = getPrivilegesUseCase.getUserPrivileges(id);
+        List<PrivilegeDto> privilegesDtos = userPrivileges.stream()
+                .map(role -> mapper.map(role, PrivilegeDto.class))
+                .peek(privilegeDto -> privilegeDto.setIdUser(id))
+                .toList();
+        return new ResponseEntity<>(privilegesDtos, HttpStatus.OK);
+    }
+
+    @PutMapping()
+    public ResponseEntity<HttpResponse> updatePrivilegesInUserRole(@RequestBody PrivilegeDto privilegeDto) {
+        updatePrivilegeUseCase.updatePrivilegesInUserRole(privilegeDto.getIdUser(), mapper.map(privilegeDto, Privilege.class));
+        return response("Zaaktualizowano uprawnienia użytkownika.");
     }
 
     @GetMapping
-    ResponseEntity<List<RoleDto>> getRoles(){
-        int i=0;
-//        log.info("USER-SERVICE: Try find user by id: = " + id);
-        List<Role> allRoles = getUserRolesUseCase.getRoles();
-//        log.info(user != null ? "USER-SERVICE: Found user by ID = " + id : "USER-SERVICE: Not found user by ID = " + id);
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    ResponseEntity<List<RoleDto>> getRoles() {
+        List<Role> allRoles = getPrivilegesUseCase.getRoles();
         List<RoleDto> roleDtos = allRoles.stream().map(role -> mapper.map(role, RoleDto.class)).collect(Collectors.toList());
         return new ResponseEntity<>(roleDtos, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping()
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<HttpResponse> addRoleToUser(@RequestParam("userID") Long idUser, @RequestParam("roleID") Long idRole) {
-        addRoleToUserUseCase.addRoleToUser(idUser, idRole);
-        return response(HttpStatus.OK, "Dodano role do użytkownika.");
+        addPrivilegeUseCase.addRoleToUser(idUser, idRole);
+        return response("Dodano role do użytkownika.");
     }
 
     @DeleteMapping()
     public ResponseEntity<HttpResponse> deleteRoleFromUser(@RequestParam("userID") Long idUser, @RequestParam("roleID") Long idRole) {
-        deleteUsersRoleUseCase.deleteUsersRoleById(idUser, idRole);
-        return response(HttpStatus.OK, "Role has been deleted from user.");
+        deletePrivilegeUseCase.deleteUsersRoleById(idUser, idRole);
+        return response("Role has been deleted from user.");
     }
 
-
-    @GetMapping("/details")
-    ResponseEntity<List<PrivilegeDto>> getRolesDetails(@RequestParam("userID") Long idUser,
-                                                       @RequestParam("roleID") Long idRole){
-//        log.info("USER-SERVICE: Try find user by id: = " + id);
-        List<PrivilegeDto> roleDetails = new ArrayList<>();
-        Privilege details = getUserRolesUseCase.getRoleDetails(idUser, idRole);
-        roleDetails.add(new PrivilegeDto("read",details.getRead().toString()));
-        roleDetails.add(new PrivilegeDto("write",details.getWrite().toString()));
-        roleDetails.add(new PrivilegeDto("delete",details.getDelete().toString()));
-//        log.info(user != null ? "USER-SERVICE: Found user by ID = " + id : "USER-SERVICE: Not found user by ID = " + id);
-        return new ResponseEntity<>(roleDetails, HttpStatus.OK);
-    }
-
-    @PutMapping("/details")
-    public ResponseEntity<HttpResponse> addPrivilegesToUserRole(@RequestParam("userID") Long idUser,
-                                                                @RequestParam("roleID") Long idRole,
-                                                                @RequestBody List<PrivilegeDto> privList) {
-
-        Map<String, String> map = new HashMap<>();
-        privList.forEach(privilegeDto -> map.put(privilegeDto.getName(), privilegeDto.getValue()));
-
-        changePrivilegeInUserRoleUseCase.changePrivilegesInUserRole(idUser, idRole, map);
-        return response(HttpStatus.OK, "Dodano przywilej do roli użytkownika.");
-    }
-
-    private ResponseEntity<HttpResponse> response(HttpStatus status, String message){
-        HttpResponse body = new HttpResponse(status.value(), status, status.getReasonPhrase(), message);
-        return new ResponseEntity<>(body, status);
+    private ResponseEntity<HttpResponse> response(String message) {
+        HttpResponse body = new HttpResponse(HttpStatus.OK.value(), HttpStatus.OK, HttpStatus.OK.getReasonPhrase(), message);
+        return new ResponseEntity<>(body, HttpStatus.OK);
     }
 }

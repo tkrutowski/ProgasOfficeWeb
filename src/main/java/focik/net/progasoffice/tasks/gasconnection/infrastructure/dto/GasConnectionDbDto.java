@@ -1,10 +1,15 @@
 package focik.net.progasoffice.tasks.gasconnection.infrastructure.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import focik.net.progasoffice.addresses.infrastructure.dto.AddressDbDto;
+import focik.net.progasoffice.customers.infrastructure.dto.CustomerDbDto;
+import focik.net.progasoffice.tasks.common.infrastructure.dto.UtilityCompanyTypeDbDto;
+import focik.net.progasoffice.tasks.coordinator.infrastructure.dto.CoordinatorDbDto;
+import focik.net.progasoffice.tasks.designers.infrastructure.dto.DesignerDbDto;
+import focik.net.progasoffice.tasks.designers.infrastructure.dto.DesignerTrafficDbDto;
+import focik.net.progasoffice.tasks.inspectors.infrastructure.dto.InspectorDbDto;
+import focik.net.progasoffice.tasks.surveyors.infrastructure.dto.SurveyorDbDto;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -22,8 +27,29 @@ public class GasConnectionDbDto {
     @Column(name = "id_przylacza")
     private Integer id;
 
-    @Column(name = "id_klienta")
-    private Integer idCustomer;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_klienta")
+    private CustomerDbDto customer;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_inspektora")
+    private InspectorDbDto inspector;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_projektanta")
+    private DesignerDbDto designer;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_koordynatora")
+    private CoordinatorDbDto coordinator;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_koordynator_projekt")
+    private CoordinatorDbDto coordinatorProject;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_address")
+    private AddressDbDto address;
 
     //TODO move to Address.class
     @Column(name = "gmina")
@@ -89,19 +115,6 @@ public class GasConnectionDbDto {
     @Column(name = "wartosc_wykonawstwa")
     private BigDecimal constructionValue;
 
-    @Deprecated
-    @Column(name = "id_inspektora")
-    private Integer idInspector;
-
-    @Column(name = "id_projektanta")
-    private String idDesigner;
-
-    @Column(name = "id_koordynatora")
-    private Integer idCoordinator;
-
-    @Column(name = "id_koordynatora_projekt")
-    private Integer idCoordinatorProject;
-
     @Column(name = "czy_PGN")
     private Boolean isPGN;
 
@@ -114,8 +127,6 @@ public class GasConnectionDbDto {
     @Column(name = "id_przylacza_sync")
     private Integer idGasConnectionSync;
 
-    @Column(name = "id_address")
-    private Integer idAddress;
 
     //
     //PROJEKT
@@ -146,10 +157,11 @@ public class GasConnectionDbDto {
     private LocalDate mapReceiptDate;
 
     @Column(name = "mape_dostarczyl")
-    private Integer map_deliveredBy;
+    private Integer mapDeliveredBy;
 
-    @Column(name = "mapa_geodeta")
-    private Integer mapSurveyor;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "mapa_geodeta")
+    private SurveyorDbDto mapSurveyor;
 
     @Column(name = "wypis_data_zlozenia", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -158,33 +170,34 @@ public class GasConnectionDbDto {
     @Column(name = "wypis_data_otrzymania", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate extractReceiptDate;
-
-
-
+    //
+//
+//
     //STAGE 2
     @Column(name = "bez_zud")
     private Boolean withoutZud;
 
     @Column(name = "zudp_data_zlozenia", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate zupdSubmissionDate;
+    private LocalDate zudpSubmissionDate;
 
     @Column(name = "zudp_data_otrzymania", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate zudpReceiptDate;
 
-    @Column(name = "id_rodzaj_zakladu_kom")
-    private Integer idMunicipalFacility;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_rodzaj_zakladu_kom")
+    private UtilityCompanyTypeDbDto utilityCompanyType;
 
     @Column(name = "zaklad_komunalny_data_zlozenia", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate municipalFacilitySubmissionDate;
+    private LocalDate utilityCompanySubmissionDate;
 
     @Column(name = "zaklad_komunalny_data_otrzymania", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate municipalFacilityReceiptDate;
-
-
+    private LocalDate utilityCompanyReceiptDate;
+    //
+//
     //STAGE 3
     @Column(name = "uzgodnienie_wsg_data_zlozenia", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -208,11 +221,11 @@ public class GasConnectionDbDto {
     @Column(name = "uzgodnienie_schematu_punktu_wsg_data_otrzymania", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate wsgAgreementPointSchemeReceiptDate;
-
-
+    //
+//
     //STAGE 4
     @Column(name = "proj_org_ruchu")
-    private Boolean isTrafficOrganizationProject;
+    private Boolean isTrafficOrganizationProjectNeeded;
 
     //Powoduje wyszarzenie się komurek dotyczących projektu org ruchu w tabeli głównej.
     @Column(name = "bez_proj_org_ruchu")
@@ -226,8 +239,12 @@ public class GasConnectionDbDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate trafficOrganizationProjectReceiptDate;
 
-    @Column(name = "id_proj_org_ruchu")
-    private Integer idTrafficOrganizationProject;
+//    @Column(name = "id_proj_org_ruchu")
+//    private Integer idTrafficOrganizationProject;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_proj_org_ruchu")
+    private DesignerTrafficDbDto designerTraffic;
 
     @Column(name = "punkt_gazowy_data_zam", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -242,19 +259,19 @@ public class GasConnectionDbDto {
     private LocalDate gasPointDocPickupDate;
 
     @Column(name = "punkt_gazowy_nr_zam")
-    private LocalDate gasPointOrderNo;
+    private String gasPointOrderNo;
 
     @Column(name = "zudp_data_wysl_geodecie", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate zudpSentToSurveyorDate;
 
-    @Column(name = "id_geodety_projekt")
-    private Integer idSurveyorProject;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_geodety_projekt")
+    private SurveyorDbDto surveyorTrafficProject;
 
     //TODO enum instead of int???
     @Column(name = "etap")
     private Integer stage;
-
 
 
     //BUILD
@@ -302,19 +319,6 @@ public class GasConnectionDbDto {
     @Column(name = "odbior_wsg_uwagi")
     private String wsgInfo;
 
-    //PGN
-
-
-
-
-
-
-
-
-
-
-
-
     //FINANCE
     @Column(name = "finanse_inwentaryzacja_kwota")
     private BigDecimal financeInventoryAmount;
@@ -331,24 +335,6 @@ public class GasConnectionDbDto {
     @Column(name = "finanse_pas_drogowy_data", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate financeRoadPastureDate;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //DO USUNIECIA

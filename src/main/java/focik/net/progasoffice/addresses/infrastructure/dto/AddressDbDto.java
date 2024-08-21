@@ -1,7 +1,11 @@
 package focik.net.progasoffice.addresses.infrastructure.dto;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 
 @NoArgsConstructor
@@ -10,16 +14,20 @@ import lombok.*;
 @Setter
 @Entity
 @Table(name = "addresses")
+//@Table(name = "address_gasconnection_view_test")
 @ToString
 public class AddressDbDto {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Integer id;
-    @Column(name = "city")
+    private Long id;
+    private String commune;
     private String city;
-    @Column(name = "street")
     private String street;
-    @Column(name = "zip")
     private String zip;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_coordinates", referencedColumnName = "id")
+    private GeoCoordinatesDbDto coordinates;
+
 }

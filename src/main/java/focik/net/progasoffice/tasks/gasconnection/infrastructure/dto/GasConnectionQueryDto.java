@@ -97,11 +97,11 @@ public class GasConnectionQueryDto {
 
     @Column(name = "uzgodnienie_wsg_data_zlozenia", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate agreementSubmissionDate;
+    private LocalDate wsgAgreementSubmissionDate;
 
     @Column(name = "uzgodnienie_wsg_data_otrzymania", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate agreementReceiptDate;
+    private LocalDate wsgAgreementReceiptDate;
 
     @Column(name = "zaw_rozdzielni_data_zlozenia", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

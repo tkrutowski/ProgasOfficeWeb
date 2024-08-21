@@ -813,72 +813,6 @@
         "dataType": "date"
       },
       {
-        "sortIndex": 25,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "substationNotificationSubmissionDate",
-        "header": "Zaw. rozdzielni - data złożenia",
-        "dataType": "date"
-      },
-      {
-        "sortIndex": 26,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "realizationStartDate",
-        "header": "Realizacja - data rozpoczęcia",
-        "dataType": "date"
-      },
-      {
-        "sortIndex": 27,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "realizationEndDate",
-        "header": "Realizacja - data zakończenia",
-        "dataType": "date"
-      },
-      {
-        "sortIndex": 28,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "surveyingSketchesDate",
-        "header": "Geodezja - szkice",
-        "dataType": "date"
-      },
-      {
-        "sortIndex": 29,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "surveyingInventoryDate",
-        "header": "Geodezja - inwentaryzacja",
-        "dataType": "date"
-      },
-      {
-        "sortIndex": 30,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "wsgTechnicalAcceptanceDate",
-        "header": "Odb WSG - techniczny",
-        "dataType": "date"
-      },
-      {
         "sortIndex": 31,
         "frozen": false,
         "visible": false,
@@ -967,50 +901,6 @@
         "dataType": "date"
       },
       {
-        "sortIndex": 38,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "zudpSentToSurveyorDate",
-        "header": "ZUDP - data wysł geodecie",
-        "dataType": "date"
-      },
-      {
-        "sortIndex": 39,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "trafficOrganizationProjectSubmissionDate",
-        "header": "Proj. org. ruchu - data złożenia",
-        "dataType": "date"
-      },
-      {
-        "sortIndex": 40,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "trafficOrganizationProjectReceiptDate",
-        "header": "Proj. org. ruchu - data otrzymania",
-        "dataType": "date"
-      },
-      {
-        "sortIndex": 7,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "wsgFinalAcceptanceDate",
-        "header": "Odb WSG - końcowy",
-        "dataType": "date"
-      },
-      {
         "sortIndex": 41,
         "frozen": false,
         "visible": false,
@@ -1031,61 +921,6 @@
         "field": "sapUpNo",
         "header": "SAP/UP",
         "dataType": "text"
-      },
-      {
-        "sortIndex": 43,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "text",
-        "showFilterMatchModes": true,
-        "field": "scopeConnection",
-        "header": "Włączenie - ciś/śr/mat",
-        "dataType": "text"
-      },
-      {
-        "sortIndex": 44,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "text",
-        "showFilterMatchModes": true,
-        "field": "scopeStation",
-        "header": "Stacja - przep/ilość",
-        "dataType": "text"
-      },
-      {
-        "sortIndex": 45,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "text",
-        "showFilterMatchModes": true,
-        "field": "scopeGasConnection",
-        "header": "Zakres - śr/dł",
-        "dataType": "text"
-      },
-      {
-        "sortIndex": 46,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "cabinetProvidedByDate",
-        "header": "Data odb szafki",
-        "dataType": "date"
-      },
-      {
-        "sortIndex": 47,
-        "frozen": false,
-        "visible": false,
-        "options": "",
-        "type": "date",
-        "showFilterMatchModes": true,
-        "field": "taskCalendarDate",
-        "header": "Kalendarz",
-        "dataType": "date"
       },
       {
         "sortIndex": 48,

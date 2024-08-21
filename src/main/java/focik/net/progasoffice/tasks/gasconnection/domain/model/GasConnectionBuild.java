@@ -1,31 +1,38 @@
 package focik.net.progasoffice.tasks.gasconnection.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import focik.net.progasoffice.tasks.gasdistributions.domain.model.GasDistribution;
+import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class GasConnectionBuild {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate substationNotificationSubmissionDate;//zaw_rozdzielni_data_zlozenia
 
-class GasConnectionBuild {
-    private LocalDate ZawRozdzielniDataZlozenia;
-    private LocalDate RealizacjaDataRozpoczecia;
-    private LocalDate RealizacjaDataZakonczenia ;
-    private LocalDate GeodezjaSzkice ;
-    private LocalDate GeodezjaInwentaryzacja;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate surveyingSketchesDate;//geodezja_szkice
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate surveyingInventoryDate;//geodezja_inwentaryzacja
 
-    private LocalDate OdbiorWsgTechniczny ;
-    private String OdbiorWsgUwagi ;
-    //10.11.2018 v.3.2.1.5 (radek)
-    private float DlPrzylRzeczywista;
-    //24.05.2019 v3224
-    private String NrProtokoluOdbioruTech;
-    private String NrInwentarzowyGazociagu;
-    //16.06.2018  v.3.2.1.2
-    private LocalDate OdbiorWsgKoncowy ;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate realizationStartDate;//realizacja_data_rozpoczecia
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate realizationEndDate;//realizacja_data_zakonczenia
 
-    //monika to chciała - Radek Zajecie pasa podbite przez Gazownię
-    private boolean ZajPasaPodbitePrzezGazownie;
-
-    //Kuba v.4.1.7.0
-    private LocalDate OdbiorWsgKoncowyDataWyslania;
-
-    private GasDistribution gasDistribution;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate wsgTechnicalAcceptanceDate;//odbior_wsg_techniczny
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate wsgFinalAcceptanceSubmissionDate;//odbior_wsg_koncowy_data_wyslania
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate wsgFinalAcceptanceDate;//odbior_wsg_koncowy
+    private String technicalAcceptanceProtocolNo;//nr_protokolu_odbioru_tech
+    private String gasPipelineInventoryNumber;//nr_inwentarzowy_gazociagu
+    private Float gasConnectionRealLength;//dl_przyl_rzecz
+    private String wsgInfo;//odbior_wsg_uwagi
 }
