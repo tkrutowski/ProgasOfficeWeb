@@ -3,6 +3,7 @@ package focik.net.progasoffice.tasks.gasconnection.infrastructure.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import focik.net.progasoffice.addresses.infrastructure.dto.AddressDbDto;
 import focik.net.progasoffice.customers.infrastructure.dto.CustomerDbDto;
+import focik.net.progasoffice.tasks.common.domain.model.Stage;
 import focik.net.progasoffice.tasks.common.infrastructure.dto.UtilityCompanyTypeDbDto;
 import focik.net.progasoffice.tasks.coordinator.infrastructure.dto.CoordinatorDbDto;
 import focik.net.progasoffice.tasks.designers.infrastructure.dto.DesignerDbDto;
@@ -271,7 +272,7 @@ public class GasConnectionDbDto {
 
     //TODO enum instead of int???
     @Column(name = "etap")
-    private Integer stage;
+    private Stage stage;
 
 
     //BUILD

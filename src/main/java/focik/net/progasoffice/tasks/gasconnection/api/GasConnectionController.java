@@ -8,6 +8,7 @@ import focik.net.progasoffice.tasks.gasconnection.infrastructure.dto.GasConnecti
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class GasConnectionController {
 
     private final GetGasConnectionUseCase gasConnectionUseCase;
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','TASKS_CONNECTION_DESIGN_READ', 'TASKS_CONNECTION_DESIGN_READ_ALL')")
     ResponseEntity<GasConnection> getGasConnection(@PathVariable Integer id) {
         log.info("GASCONNECTION: Try find gasconnection for  id = " + id);

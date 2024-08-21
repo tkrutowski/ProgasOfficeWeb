@@ -1,5 +1,7 @@
 package focik.net.progasoffice.tasks.gasconnection.infrastructure.jpa;
 
+import focik.net.progasoffice.share.TaskStatus;
+import focik.net.progasoffice.tasks.common.domain.model.Stage;
 import focik.net.progasoffice.tasks.gasconnection.domain.exceptions.GasConnectionDoesNotExistException;
 import focik.net.progasoffice.tasks.gasconnection.domain.model.GasConnection;
 import focik.net.progasoffice.tasks.gasconnection.domain.model.GasConnectionBuild;
@@ -9,6 +11,7 @@ import focik.net.progasoffice.tasks.gasconnection.domain.port.secondary.GasConne
 import focik.net.progasoffice.tasks.gasconnection.infrastructure.dto.GasConnectionDbDto;
 import focik.net.progasoffice.tasks.gasconnection.infrastructure.dto.GasConnectionQueryDto;
 import focik.net.progasoffice.tasks.gasconnection.infrastructure.mapper.JpaGasConnectionMapper;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Primary;
@@ -49,7 +52,30 @@ private final ModelMapper modelMapper;
 
     @Override
     public List<GasConnection> findAll() {
-        return List.of();
+        List<GasConnectionDbDto> all = gasConnectionDtoRepository.findAll();
+        return mapToDomain(all);
     }
 
+    @Override
+    public List<GasConnection> findAllByFinish(Boolean isFinish) {
+        List<GasConnectionDbDto> allByIsFinished = gasConnectionDtoRepository.findAllByIsFinished(isFinish);
+        return mapToDomain(allByIsFinished);
+    }
+
+
+    @Override
+    @Transactional
+    public void updateStage(Integer idTask, Stage stage) {
+        gasConnectionDtoRepository.updateStage(idTask, stage);
+    }
+
+    private List<GasConnection> mapToDomain(List<GasConnectionDbDto> all) {
+        return all.stream()
+                .map(gasConnectionDbDto -> {
+                    GasConnection gasConnection = modelMapper.map(gasConnectionDbDto, GasConnection.class);
+                    gasConnection.setGasConnectionDesign(modelMapper.map(gasConnectionDbDto, GasConnectionDesign.class));
+                    gasConnection.setGasConnectionBuild(modelMapper.map(gasConnectionDbDto, GasConnectionBuild.class));
+                    return gasConnection;
+                }).toList();
+    }
 }

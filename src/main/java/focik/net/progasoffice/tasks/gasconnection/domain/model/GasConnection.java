@@ -28,6 +28,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class GasConnection extends Task implements Stageable {
 
 
@@ -92,9 +93,8 @@ public class GasConnection extends Task implements Stageable {
     private Boolean isFinished;
     //id_przylacza_sync
     private Integer idGasConnectionSync;
-    //TODO enum instead of int???
     //etap
-    private Integer stage;
+    private Stage stage;
 
 
     public boolean hasWorkRangeGasStation(){
