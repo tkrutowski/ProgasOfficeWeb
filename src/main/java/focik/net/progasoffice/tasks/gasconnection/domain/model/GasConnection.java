@@ -13,6 +13,7 @@ import focik.net.progasoffice.tasks.designers.domain.model.Designer;
 import focik.net.progasoffice.tasks.inspectors.domain.model.Inspector;
 import focik.net.progasoffice.tasks.pgn.domain.model.Pgn;
 import focik.net.progasoffice.tasks.plot.domain.model.Plot;
+import focik.net.progasoffice.tasks.workrange.domain.model.WorkRangeConnection;
 import focik.net.progasoffice.tasks.workrange.domain.model.WorkRangeGasConnection;
 import focik.net.progasoffice.tasks.workrange.domain.model.WorkRangeGasStation;
 import lombok.*;
@@ -45,8 +46,10 @@ public class GasConnection extends Task implements Stageable {
     private List<Plot> plots;
     private List<WorkRangeGasConnection> workRangeGasConnections;
     private List<WorkRangeGasStation> workRangeGasStations;
+    private WorkRangeConnection workRangeConnection;
     private GasConnectionDesign gasConnectionDesign;
     private GasConnectionBuild gasConnectionBuild;
+    private GasConnectionFinance gasConnectionFinance;
     private Pgn pgn;
     //nr_zadania
     private String taskNo;

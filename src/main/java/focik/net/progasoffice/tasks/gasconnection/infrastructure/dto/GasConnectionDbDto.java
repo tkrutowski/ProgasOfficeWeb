@@ -327,10 +327,10 @@ public class GasConnectionDbDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate financeInventoryDate;
     @Column(name = "finanse_projekt_kwota")
-    private BigDecimal financeProjektAmount;
+    private BigDecimal financeProjectAmount;
     @Column(name = "finanse_projekt_data", columnDefinition = "DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate financeProjektDate;
+    private LocalDate financeProjectDate;
     @Column(name = "finanse_pas_drogowy_kwota")
     private BigDecimal financeRoadPastureAmount;
     @Column(name = "finanse_pas_drogowy_data", columnDefinition = "DATE")

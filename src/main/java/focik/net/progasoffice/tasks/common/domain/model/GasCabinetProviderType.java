@@ -1,5 +1,10 @@
 package focik.net.progasoffice.tasks.common.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+
+@Getter
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum GasCabinetProviderType {
     UNKNOWN("Nieznane"),
     CUSTOMER("Klient"),
@@ -12,7 +17,7 @@ public enum GasCabinetProviderType {
         this.viewValue = viewValue;
     }
 
-    public String getViewValue() {
-        return viewValue;
+    public String getName() {
+        return this.name();
     }
 }

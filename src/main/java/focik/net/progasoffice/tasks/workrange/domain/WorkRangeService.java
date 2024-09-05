@@ -1,6 +1,7 @@
 package focik.net.progasoffice.tasks.workrange.domain;
 
 import focik.net.progasoffice.tasks.common.domain.model.TaskType;
+import focik.net.progasoffice.tasks.workrange.domain.model.WorkRangeConnection;
 import focik.net.progasoffice.tasks.workrange.domain.model.WorkRangeGasConnection;
 import focik.net.progasoffice.tasks.workrange.domain.model.WorkRangeGasStation;
 import focik.net.progasoffice.tasks.workrange.domain.port.secondary.WorkRangeRepository;
@@ -20,5 +21,10 @@ class WorkRangeService {
 
     public List<WorkRangeGasStation> getWorkRangeGasStationsByTask(int idTask, TaskType taskType) {
         return workRangeRepository.findWorkRangeGasStationsByTask(idTask, taskType);
+    }
+
+    public WorkRangeConnection getWorkRangeConnectionsByTask(int idTask, TaskType taskType) {
+        return workRangeRepository.findWorkRangeConnectionsByTask(idTask, taskType)
+                .orElse(null);
     }
 }

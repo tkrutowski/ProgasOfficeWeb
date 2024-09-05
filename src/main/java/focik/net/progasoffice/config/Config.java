@@ -24,6 +24,7 @@ private final IAppUserRepository userRepository;;
 
     @Bean
     public ModelMapper modelMapper() {
+
         return new ModelMapper();
     }
 

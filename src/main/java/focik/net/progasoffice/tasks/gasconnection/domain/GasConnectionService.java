@@ -3,6 +3,7 @@ package focik.net.progasoffice.tasks.gasconnection.domain;
 import focik.net.progasoffice.share.TaskStatus;
 import focik.net.progasoffice.tasks.common.domain.model.Stage;
 import focik.net.progasoffice.tasks.common.domain.model.TaskType;
+import focik.net.progasoffice.tasks.finance.domain.CostFacade;
 import focik.net.progasoffice.tasks.gasconnection.domain.model.GasConnection;
 import focik.net.progasoffice.tasks.gasconnection.domain.port.secondary.GasConnectionRepository;
 import focik.net.progasoffice.tasks.pgn.domain.PgnFacade;
@@ -20,6 +21,7 @@ class GasConnectionService {
     private final PlotFacade plotFacade;
     private final WorkRangeFacade workRangeFacade;
     private final PgnFacade pgnFacade;
+    private final CostFacade costFacade;
     private final GasConnectionRepository gasConnectionRepository;
 
     GasConnection getGasConnection(int id) {
@@ -36,8 +38,14 @@ class GasConnectionService {
         gasConnection.setPlots(plotFacade.getByTask(gasConnection.getId(), TaskType.GAS_CONNECTION));
         gasConnection.setWorkRangeGasConnections(workRangeFacade.getWorkRangeGasConnectionsByTask(gasConnection.getId(), TaskType.GAS_CONNECTION));
         gasConnection.setWorkRangeGasStations(workRangeFacade.getWorkRangeGasStationsByTask(gasConnection.getId(), TaskType.GAS_CONNECTION));
-        if (gasConnection.getIsPGN())
+        if (gasConnection.getIsPGN()) {
             gasConnection.setPgn(pgnFacade.getPgnByTask(gasConnection.getId(), TaskType.GAS_CONNECTION));
+        }
+        gasConnection.getGasConnectionFinance().setCostList(costFacade.getByTask(gasConnection.getId(), TaskType.GAS_CONNECTION));
+
+        gasConnection.setWorkRangeGasStations(workRangeFacade.getWorkRangeGasStationsByTask(gasConnection.getId(), TaskType.GAS_CONNECTION));
+        gasConnection.setWorkRangeGasConnections(workRangeFacade.getWorkRangeGasConnectionsByTask(gasConnection.getId(), TaskType.GAS_CONNECTION));
+        gasConnection.setWorkRangeConnection(workRangeFacade.getWorkRangeConnectionByTask(gasConnection.getId(), TaskType.GAS_CONNECTION));
     }
 
     void updateStage(GasConnection gasConnection, Stage newStage) {
